@@ -49,6 +49,6 @@ export class User extends BaseEntity {
   @MinLength(5, { message: 'Password must be at least 5 characters long' })
   password: string;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.guestId)
+  @OneToMany(() => Reservation, (reservation) => reservation.guest)
   reservations: Reservation[];
 }

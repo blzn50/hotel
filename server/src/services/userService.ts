@@ -1,33 +1,29 @@
+import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
 import { getManager } from 'typeorm';
-import { validate, ValidationError } from 'class-validator';
 import { User } from '../entities/User';
-import { LoginInfo, RegisterInfo, CustomError } from '../types';
+import { LoginInfo, CustomError } from '../types';
 
-const registerUser = async (user: RegisterInfo): Promise<User> => {
-  const newUser = new User();
+const registerUser = async (
+  newUser: User
+): Promise<{
+  registeredUser: User;
+  token: string;
+}> => {
+  const hashedPassword = await argon2.hash(newUser.password);
+  newUser.password = hashedPassword;
+  const registeredUser = await getManager().save(newUser);
 
-  newUser.firstName = user.firstName;
-  newUser.lastName = user.lastName;
-  newUser.email = user.email;
-  newUser.password = user.password;
+  const userForToken = {
+    email: registeredUser.email,
+    userId: registeredUser.id,
+  };
 
-  // console.log('newUser: ', newUser);
+  const token = jwt.sign(userForToken, process.env.JWT_SECRET || 'fdafsafagasgve', {
+    expiresIn: '2h',
+  });
 
-  const errors: ValidationError[] = await validate(newUser);
-  console.log('errors: ', errors);
-
-  if (errors.length > 0) {
-    const message = errors
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      .map((error: ValidationError) => Object.values(error.constraints!).join(''));
-
-    throw new CustomError('ValidationError', message);
-  } else {
-    const hashedPassword = await argon2.hash(user.password);
-    newUser.password = hashedPassword;
-    return await getManager().save(newUser);
-  }
+  return { registeredUser, token };
   // const result = await getConnection()
   //   .createQueryBuilder()
   //   .insert()
@@ -49,13 +45,26 @@ const loginUser = async ({
   email,
   password,
 }: LoginInfo): Promise<{
-  user: User | undefined;
-  validPassword: boolean;
+  user: User;
+  token: string;
 }> => {
   const user = await User.findOne({ email });
 
   const validPassword = user === undefined ? false : await argon2.verify(user.password, password);
-  return { user, validPassword };
+
+  if (!(user && validPassword)) {
+    throw new CustomError('LoginError', ['Username or Password error']);
+  }
+
+  const userForToken = {
+    email: user.email,
+    userId: user.id,
+  };
+
+  const token = jwt.sign(userForToken, process.env.JWT_SECRET || 'fdafsafagasgve', {
+    expiresIn: '2h',
+  });
+  return { user, token };
 };
 
 export default { registerUser, loginUser };

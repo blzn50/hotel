@@ -52,6 +52,8 @@ const errorHandler = (error: CustomError, _req: Request, res: Response, next: Ne
     res.status(401).json({ error: ['Token expired'] });
   } else if (error.name === 'ValidationError') {
     res.status(401).json({ error: error.elaborateMessage });
+  } else if (error.name === 'LoginError') {
+    res.status(401).json({ error: error.elaborateMessage });
   }
   // res.status(400).json({ errors });
   // return;

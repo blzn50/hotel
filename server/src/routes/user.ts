@@ -1,47 +1,27 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import { toNewUser } from '../utils/validation';
 import userService from '../services/userService';
-import { LoginInfo, RegisterInfo } from '../types';
+import { LoginInfo } from '../types';
 
 const userRouter = express.Router();
 
 userRouter.post('/register', async (req, res) => {
-  const { firstName, lastName, email, password }: RegisterInfo = req.body;
+  const newUser = await toNewUser(req.body);
 
-  const newUser = await userService.registerUser({ firstName, lastName, email, password });
+  const { registeredUser, token } = await userService.registerUser(newUser);
 
-  const userForToken = {
-    email: newUser.email,
-    userId: newUser.id,
-  };
-
-  const token = jwt.sign(userForToken, process.env.JWT_SECRET || 'fdafsafagasgve', {
-    expiresIn: '2h',
-  });
-
-  return res.status(200).send({ token, email: newUser.email });
+  return res.status(200).send({ token, email: registeredUser.email });
 });
 
 userRouter.post('/login', async (req, res) => {
   const { email, password }: LoginInfo = req.body;
 
   if (!(email && password)) {
-    res.status(400).send();
+    res.status(401).send({ error: 'Please fill email/password field' });
   }
 
-  const { user, validPassword } = await userService.loginUser({ email, password });
-  if (!(user && validPassword)) {
-    return res.status(401).json({ error: 'Username or Password error' });
-  }
-
-  const userForToken = {
-    email: user.email,
-    userId: user.id,
-  };
-
-  const token = jwt.sign(userForToken, process.env.JWT_SECRET || 'fdafsafagasgve', {
-    expiresIn: '2h',
-  });
+  const { user, token } = await userService.loginUser({ email, password });
 
   return res.status(200).send({ token, email: user.email });
 });

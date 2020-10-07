@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Reservation } from './Reservation';
 
 export enum RoomType {
@@ -25,7 +32,7 @@ export class Room extends BaseEntity {
   @Column('money')
   price: number;
 
-  @Column()
+  @PrimaryColumn()
   reservationId: number;
 
   @ManyToOne(() => Reservation, (reservation) => reservation.rooms)

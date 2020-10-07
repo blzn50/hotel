@@ -12,6 +12,12 @@ export type RegisterInfo = {
   password: string;
 };
 
+export type ReservationInfo = {
+  arrival: Date;
+  departure: Date;
+  guestNumber: number;
+};
+
 export type FieldError = {
   field: string;
   message: string;

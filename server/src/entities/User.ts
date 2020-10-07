@@ -3,14 +3,23 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IsEmail, MinLength } from 'class-validator';
+import { Reservation } from './Reservation';
+
+export enum UserType {
+  GUEST = 'guest',
+  MANAGER = 'manager',
+  RECEPTIONIST = 'receptionist',
+}
 
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id: number;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -18,12 +27,28 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ unique: true })
-  username!: string;
+  @Column({ type: 'enum', enum: UserType, default: UserType.GUEST })
+  userType: UserType;
 
-  @Column({ unique: true })
-  email!: string;
+  @Column({ default: false })
+  isAdmin: boolean;
 
   @Column()
-  password!: string;
+  @MinLength(2, { message: 'First name must be at least 2 characters long.' })
+  firstName: string;
+
+  @Column()
+  @MinLength(2, { message: 'Last name must be at least 2 characters long.' })
+  lastName: string;
+
+  @Column({ unique: true })
+  @IsEmail({}, { message: 'Email must be valid' })
+  email: string;
+
+  @Column()
+  @MinLength(5, { message: 'Password must be at least 5 characters long' })
+  password: string;
+
+  @OneToMany(() => Reservation, (reservation) => reservation.guestId)
+  reservations: Reservation[];
 }

@@ -1,3 +1,6 @@
 node_modules
 dist
 .env
+
+src/entities/Employee.ts
+src/entities/Name.ts

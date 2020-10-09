@@ -4,5 +4,3 @@ dist
 
 src/entities/Employee.ts
 src/entities/Name.ts
-
-src/routes/reservation.ts

@@ -11,6 +11,7 @@ import { Reservation } from './Reservation';
 export enum RoomType {
   SINGLE = 'single',
   DOUBLE = 'double',
+  TRIPLE = 'triple',
   FAMILY = 'family',
   SUITE = 'suite',
 }
@@ -26,11 +27,11 @@ export class Room extends BaseEntity {
   @Column()
   roomNumber: number;
 
-  @Column()
-  isAvailable: boolean;
-
   @Column('money')
   price: number;
+
+  @Column()
+  isAvailable: boolean;
 
   @PrimaryColumn()
   reservationId: number;

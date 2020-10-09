@@ -49,6 +49,10 @@ export class Reservation extends BaseEntity {
   @ManyToOne(() => User, (user) => user.reservations)
   guest: User;
 
+  @Column({ type: 'integer', default: 1 })
+  @Min(1, { message: 'At least 1 room must be booked' })
+  totalRoomsBooked: number;
+
   @Column()
   roomNumber: number;
 

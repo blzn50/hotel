@@ -1,5 +1,4 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
 import { toNewUser } from '../utils/validation';
 import userService from '../services/userService';
 import { LoginInfo } from '../types';

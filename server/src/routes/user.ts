@@ -1,9 +1,9 @@
-import express from 'express';
+import { Router } from 'express';
 import { toNewUser } from '../utils/validation';
 import userService from '../services/userService';
 import { LoginInfo } from '../types';
 
-const userRouter = express.Router();
+const userRouter = Router();
 
 userRouter.post('/register', async (req, res) => {
   const newUser = await toNewUser(req.body);

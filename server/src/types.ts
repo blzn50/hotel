@@ -18,6 +18,14 @@ export type ReservationInfo = {
   guestNumber: number;
 };
 
+export interface SearchObject {
+  arrival: Date;
+  departure: Date;
+  roomType: string;
+  guestNumber: number;
+  noOfRoom: number;
+}
+
 export type FieldError = {
   field: string;
   message: string;
@@ -27,12 +35,6 @@ export type UserResponse = {
   errors?: FieldError[];
   user: User;
 };
-
-export interface Error {
-  code?: string;
-  name?: string;
-  status?: string;
-}
 
 export type JWTObject = {
   email: string;

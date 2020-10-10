@@ -27,13 +27,13 @@ export class Room extends BaseEntity {
   @Column()
   roomNumber: number;
 
-  @Column('money')
+  @Column('numeric')
   price: number;
 
   @Column()
   isAvailable: boolean;
 
-  @PrimaryColumn()
+  @PrimaryColumn({ default: 0 })
   reservationId: number;
 
   @ManyToOne(() => Reservation, (reservation) => reservation.rooms)

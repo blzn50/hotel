@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import 'dotenv/config';
 import express from 'express';
 import 'express-async-errors';
+import path from 'path';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { createConnection } from 'typeorm';
@@ -11,15 +12,19 @@ import { Reservation } from './entities/Reservation';
 import { Room } from './entities/Room';
 import { User } from './entities/User';
 import { userRouter } from './routes/user';
+import { searchRouter } from './routes/search';
+import { reservationRouter } from './routes/reservation';
 
 const main = async () => {
-  await createConnection({
+  const conn = await createConnection({
     type: 'postgres',
     url: process.env.DATABASE_URL,
     // logging: true,
     entities: [User, Reservation, Room],
+    migrations: [path.join(__dirname, './migrations/*')],
     synchronize: true,
   });
+  await conn.runMigrations();
 
   const app = express();
   app.use(express.json());
@@ -31,6 +36,8 @@ const main = async () => {
     res.send('hello world');
   });
 
+  app.use('/', searchRouter);
+  app.use('/reservation', reservationRouter);
   app.use('/user', userRouter);
   app.use(middleware.errorHandler);
 

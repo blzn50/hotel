@@ -53,7 +53,7 @@ export class Reservation extends BaseEntity {
   @Min(1, { message: 'At least 1 room must be booked' })
   totalRoomsBooked: number;
 
-  @Column()
+  @Column({ nullable: true })
   roomNumber: number;
 
   @OneToMany(() => Room, (room) => room.reserved)

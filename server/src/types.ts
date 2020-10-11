@@ -12,6 +12,10 @@ export type RegisterInfo = {
   password: string;
 };
 
+export type ForgotPasswordDTO = {
+  email: string;
+};
+
 export type ReservationInfo = {
   arrival: Date;
   departure: Date;

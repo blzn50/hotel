@@ -2,7 +2,8 @@ import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
 import { getManager } from 'typeorm';
 import { User } from '../entities/User';
-import { LoginInfo, CustomError } from '../types';
+import { LoginInfo, CustomError, ForgotPasswordDTO } from '../types';
+import { sendMail } from '../utils/sendEmail';
 
 const registerUser = async (
   newUser: User
@@ -24,21 +25,6 @@ const registerUser = async (
   });
 
   return { registeredUser, token };
-  // const result = await getConnection()
-  //   .createQueryBuilder()
-  //   .insert()
-  //   .into(User)
-  //   .values({
-  //     name: {
-  //       first: user.name.first,
-  //       last: user.name.last,
-  //     },
-  //     email: user.email,
-  //     password: hashedPassword,
-  //   })
-  //   .returning('*')
-  //   .execute();
-  // return result.raw[0];
 };
 
 const loginUser = async ({
@@ -67,4 +53,31 @@ const loginUser = async ({
   return { user, token };
 };
 
-export default { registerUser, loginUser };
+const forgotPassword = async (email: string) => {
+  const foundUser = await User.findOneOrFail({ where: { email } });
+
+  if (!foundUser) {
+    console.log('user not found');
+    return true;
+  }
+
+  const emailForToken = {
+    email: foundUser.email,
+  };
+
+  const secret = foundUser.password + '-' + foundUser.createdAt;
+  const token = jwt.sign(emailForToken, secret, {
+    expiresIn: '1h',
+  });
+
+  const html = `<p>You are receiving this because you/someone else have requested the reset of the password for your account.</p>\n
+                <p>Please click on the following link to complete the process within one hour of receiving it:</p>\n
+                <a href="${process.env.CORS_ORIGIN}/reset-password/${token}">Reset Password</a>\n
+                <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`;
+
+  await sendMail(foundUser.email, html);
+  return true;
+};
+const changePassword = async (email) => {};
+
+export default { registerUser, loginUser, forgotPassword, changePassword };

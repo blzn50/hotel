@@ -41,8 +41,8 @@ export type UserResponse = {
 };
 
 export type JWTObject = {
-  email: string;
-  id: number;
+  email?: string;
+  id?: number;
 };
 
 export class CustomError extends Error {

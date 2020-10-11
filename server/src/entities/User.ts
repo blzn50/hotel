@@ -51,4 +51,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Reservation, (reservation) => reservation.guest)
   reservations: Reservation[];
+
+  @Column({ nullable: true })
+  passwordResetToken: string;
 }

@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
 import { getManager } from 'typeorm';
 import { User } from '../entities/User';
-import { LoginInfo, CustomError, ForgotPasswordDTO } from '../types';
+import { LoginInfo, CustomError, JWTObject } from '../types';
 import { sendMail } from '../utils/sendEmail';
 
 const registerUser = async (
@@ -20,7 +20,7 @@ const registerUser = async (
     userId: registeredUser.id,
   };
 
-  const token = jwt.sign(userForToken, process.env.JWT_SECRET || 'fdafsafagasgve', {
+  const token = jwt.sign(userForToken, process.env.JWT_SECRET || '', {
     expiresIn: '2h',
   });
 
@@ -47,13 +47,13 @@ const loginUser = async ({
     userId: user.id,
   };
 
-  const token = jwt.sign(userForToken, process.env.JWT_SECRET || 'fdafsafagasgve', {
+  const token = jwt.sign(userForToken, process.env.JWT_SECRET, {
     expiresIn: '2h',
   });
   return { user, token };
 };
 
-const forgotPassword = async (email: string) => {
+const forgotPassword = async (email: string): Promise<boolean> => {
   const foundUser = await User.findOneOrFail({ where: { email } });
 
   if (!foundUser) {
@@ -70,6 +70,9 @@ const forgotPassword = async (email: string) => {
     expiresIn: '1h',
   });
 
+  foundUser.passwordResetToken = token;
+  await foundUser.save();
+
   const html = `<p>You are receiving this because you/someone else have requested the reset of the password for your account.</p>\n
                 <p>Please click on the following link to complete the process within one hour of receiving it:</p>\n
                 <a href="${process.env.CORS_ORIGIN}/reset-password/${token}">Reset Password</a>\n
@@ -78,6 +81,19 @@ const forgotPassword = async (email: string) => {
   await sendMail(foundUser.email, html);
   return true;
 };
-const changePassword = async (email) => {};
+
+const changePassword = async (token: string, newPassword: string): Promise<User | undefined> => {
+  const foundUser = await User.findOneOrFail({ where: { passwordResetToken: token } });
+
+  const secret = foundUser.password + '-' + foundUser.createdAt;
+  const jwtPayload = <JWTObject>jwt.verify(token, secret);
+
+  if (jwtPayload.email === foundUser.email) {
+    foundUser.password = await argon2.hash(newPassword);
+    await foundUser.save();
+    return foundUser;
+  }
+  return;
+};
 
 export default { registerUser, loginUser, forgotPassword, changePassword };

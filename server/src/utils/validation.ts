@@ -3,6 +3,7 @@
 import { User } from '../entities/User';
 import { Reservation } from '../entities/Reservation';
 import { toValidation } from './toValidation';
+import { ResetPasswordDTO } from '../entities/ResetPassword.dto';
 
 const toNewUser = async (object: any): Promise<User> => {
   const newUser = new User();
@@ -12,7 +13,7 @@ const toNewUser = async (object: any): Promise<User> => {
   newUser.email = object.email;
   newUser.password = object.password;
 
-  return (toValidation(newUser) as any) as User;
+  return (await (toValidation(newUser) as unknown)) as User;
 };
 
 const toNewReservation = async (object: any): Promise<Reservation> => {
@@ -23,7 +24,14 @@ const toNewReservation = async (object: any): Promise<Reservation> => {
   newReservation.guestNumber = object.guestNumber;
   newReservation.totalRoomsBooked = object.totalRoomsBooked;
 
-  return (toValidation(newReservation) as any) as Reservation;
+  return (await (toValidation(newReservation) as unknown)) as Reservation;
 };
 
-export { toNewUser, toNewReservation };
+const toResetPassword = async (object: any): Promise<ResetPasswordDTO> => {
+  const newPassword = new ResetPasswordDTO();
+
+  newPassword.password = object.password;
+
+  return (await (toValidation(newPassword) as unknown)) as ResetPasswordDTO;
+};
+export { toNewUser, toNewReservation, toResetPassword };

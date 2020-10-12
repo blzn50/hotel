@@ -10,7 +10,16 @@ userRouter.post('/register', async (req, res) => {
 
   const { registeredUser, token } = await userService.registerUser(newUser);
 
-  return res.status(200).send({ token, email: registeredUser.email });
+  return res
+    .status(200)
+    .send({
+      token,
+      user: {
+        email: registeredUser.email,
+        firstName: registeredUser.firstName,
+        lastName: registeredUser.lastName,
+      },
+    });
 });
 
 userRouter.post('/login', async (req, res) => {
@@ -22,7 +31,12 @@ userRouter.post('/login', async (req, res) => {
 
   const { user, token } = await userService.loginUser({ email, password });
 
-  return res.status(200).send({ token, email: user.email });
+  return res
+    .status(200)
+    .send({
+      token,
+      user: { email: user.email, firstName: user.firstName, lastName: user.lastName },
+    });
 });
 
 userRouter.post('/forgot-password', async (req, res) => {

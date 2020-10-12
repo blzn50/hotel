@@ -90,6 +90,7 @@ const changePassword = async (token: string, newPassword: string): Promise<User 
 
   if (jwtPayload.email === foundUser.email) {
     foundUser.password = await argon2.hash(newPassword);
+    foundUser.passwordResetToken = '';
     await foundUser.save();
     return foundUser;
   }

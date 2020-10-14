@@ -5,6 +5,7 @@ import 'express-async-errors';
 import path from 'path';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import cors from 'cors';
 import { createConnection } from 'typeorm';
 
 import middleware from './utils/middleware';
@@ -27,6 +28,12 @@ const main = async () => {
   await conn.runMigrations();
 
   const app = express();
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    })
+  );
   app.use(express.json());
   app.use(helmet());
   app.use(morgan('short'));

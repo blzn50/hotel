@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { StateProvider, reducer } from './state';
 import App from './App';
 import './index.css';
@@ -7,7 +8,9 @@ import './index.css';
 ReactDOM.render(
   <React.StrictMode>
     <StateProvider reducer={reducer}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </StateProvider>
   </React.StrictMode>,
   document.getElementById('root')

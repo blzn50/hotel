@@ -6,7 +6,7 @@ export enum RoomType {
   SUITE = 'suite',
 }
 
-export type RegisterDate = {
+export type RegisterData = {
   firstName: string;
   lastName: string;
   email: string;

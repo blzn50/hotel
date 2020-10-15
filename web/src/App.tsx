@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
-import './App.css';
 import axios from 'axios';
+import Login from './Login';
+import Register from './Register';
+import Home from './Home';
+import './App.css';
+import { useStateValue } from './state';
 
 const { Header, Footer, Content } = Layout;
 
 function App() {
+  const [_, dispatch] = useStateValue();
   useEffect(() => {
     (async function () {
       try {
@@ -16,11 +22,22 @@ function App() {
       }
     })();
   }, []);
+
   return (
     <Layout>
       <Header>Header</Header>
-      <Content>Content</Content>
-      <Footer>Footer</Footer>
+      <Switch>
+        <Content style={{ background: 'white' }}>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/register">{/* <Register onSubmit={handleLogin} /> */}</Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+        </Content>
+        <Footer>Footer</Footer>
+      </Switch>
     </Layout>
   );
 }

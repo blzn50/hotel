@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { Form, Input } from 'formik-antd';
 import * as Yup from 'yup';
 import { Button, Typography } from 'antd';
-import { LoginData } from '../types';
+import { LoginData } from '../../types';
 
 const { Title } = Typography;
 

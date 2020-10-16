@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Layout, Typography, notification } from 'antd';
-import { LoginData, UserResponse } from '../types';
+import { LoginData, UserResponse } from '../../types';
 import LoginForm from './LoginForm';
-import { login, useStateValue } from '../state';
+import { login, useStateValue } from '../../state';
 import { Redirect, useHistory } from 'react-router-dom';
+import { baseApi } from '../../utils/httpUtils';
 
 const Login: React.FC = () => {
   const [{ user }, dispatch] = useStateValue();
@@ -12,10 +13,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async (formData: LoginData) => {
     try {
-      const { data: loginData } = await axios.post<UserResponse>(
-        `${process.env.REACT_APP_SERVER_URL}/user/login`,
-        formData
-      );
+      const { data: loginData } = await baseApi.post<UserResponse>(`/user/login`, formData);
       dispatch(login(loginData));
       history.push('/');
     } catch (error) {

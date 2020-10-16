@@ -10,7 +10,7 @@ export type State = {
   user: { [email: string]: UserResponse };
 };
 
-const initialState = {
+export const initialState = {
   rooms: {},
   reservations: {},
   user: {},

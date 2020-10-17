@@ -8,7 +8,7 @@ import { sendMail } from '../utils/sendEmail';
 const registerUser = async (
   newUser: User
 ): Promise<{
-  registeredUser: User;
+  registeredUserWithToken: User;
   token: string;
 }> => {
   const hashedPassword = await argon2.hash(newUser.password);
@@ -20,18 +20,25 @@ const registerUser = async (
     userId: registeredUser.id,
   };
 
+  // generate jwt
   const token = jwt.sign(userForToken, process.env.JWT_SECRET || '', {
     expiresIn: '2h',
   });
 
-  return { registeredUser, token };
+  // save refreshToken into user
+  registeredUser.refreshToken = token;
+
+  // save user again
+  const registeredUserWithToken = await getManager().save(registeredUser);
+
+  return { registeredUserWithToken, token };
 };
 
 const loginUser = async ({
   email,
   password,
 }: LoginInfo): Promise<{
-  user: User;
+  userWithToken: User;
   token: string;
 }> => {
   const user = await User.findOne({ email });
@@ -50,7 +57,18 @@ const loginUser = async ({
   const token = jwt.sign(userForToken, process.env.JWT_SECRET, {
     expiresIn: '2h',
   });
-  return { user, token };
+
+  user.refreshToken = token;
+  const userWithToken = await user.save();
+
+  return { userWithToken, token };
+};
+
+const logoutUser = async (token: string): Promise<void> => {
+  const user = await User.findOneOrFail({ where: { refreshToken: token } });
+  user.refreshToken = '';
+
+  await user.save();
 };
 
 const forgotPassword = async (email: string): Promise<boolean> => {
@@ -98,4 +116,4 @@ const changePassword = async (token: string, newPassword: string): Promise<User 
   return;
 };
 
-export default { registerUser, loginUser, forgotPassword, changePassword };
+export default { registerUser, loginUser, logoutUser, forgotPassword, changePassword };

@@ -8,9 +8,10 @@ const reservationRouter = Router();
 reservationRouter.post('/book', [middleware.checkJWT], async (req: Request, res: Response) => {
   const { rooms }: { rooms: number[] } = req.body;
   const newReservation = await toNewReservation(req.body);
-  const email = res.locals.jwtPayload.email;
+  const { token }: { token: string } = req;
+  const { email }: { email: string } = res.locals.jwtPayload;
 
-  const reservation = await reservationService.bookReservation(newReservation, email, rooms);
+  const reservation = await reservationService.bookReservation(newReservation, email, rooms, token);
 
   res.status(200).send(reservation);
 });

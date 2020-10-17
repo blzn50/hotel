@@ -54,4 +54,7 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   passwordResetToken: string;
+
+  @Column({ nullable: true })
+  refreshToken: string;
 }

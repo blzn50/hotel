@@ -6,7 +6,8 @@ import { Reservation, ReservationStatus } from '../entities/Reservation';
 const bookReservation = async (
   newReservation: Reservation,
   email: string,
-  rooms: number[]
+  rooms: number[],
+  token: string
 ): Promise<{
   bookedReservation: Reservation;
   totalPrice: number;
@@ -16,7 +17,7 @@ const bookReservation = async (
   const roomRepository = getRepository(Room);
 
   // find user
-  const user = await userRepository.findOneOrFail({ email });
+  const user = await userRepository.findOneOrFail({ email, refreshToken: token });
 
   // checking if the rooms are actually available/exists
   const returnedRoomNumbers = rooms.map(async (roomNumber) => {

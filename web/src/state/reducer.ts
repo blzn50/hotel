@@ -48,6 +48,7 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         user: {},
+        reservations: {},
       };
     default:
       return state;

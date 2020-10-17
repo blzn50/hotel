@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 import axios from 'axios';
 import Login from './components/Login';
 import Register from './components/Register';
+import NavHeader from './components/NavHeader';
 import Home from './components/Home';
 import './App.css';
 import { useStateValue } from './state';
@@ -27,7 +28,9 @@ function App() {
 
   return (
     <Layout>
-      <Header>Header</Header>
+      <Header>
+        <NavHeader />
+      </Header>
       <Switch>
         <Content style={{ background: 'white' }}>
           <Route exact path="/">

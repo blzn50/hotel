@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { Button, Layout, Typography, notification } from 'antd';
+import { Typography, notification } from 'antd';
 import { LoginData, UserResponse } from '../../types';
 import LoginForm from './LoginForm';
 import { login, useStateValue } from '../../state';

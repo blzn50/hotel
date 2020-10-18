@@ -27,7 +27,7 @@ function App() {
 
   return (
     <Layout>
-      <Header>
+      <Header className="header">
         <NavHeader />
       </Header>
       <Switch>

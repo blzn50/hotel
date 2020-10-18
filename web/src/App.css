@@ -1,5 +1,23 @@
 @import '~antd/dist/antd.css';
 
+.header {
+  background-color: white;
+  border-bottom: 1px solid #e4e2e2;
+  padding: 0 2rem;
+}
+
+.logo {
+  float: left;
+  margin-left: 0.3rem;
+}
+
+.logo a {
+  text-decoration: none;
+  color: black;
+  font-style: oblique;
+  font-weight: bold;
+}
+
 .form-container {
   margin: 11vh auto;
   width: 500px;
@@ -39,6 +57,12 @@
 
 /* smaller */
 @media (max-width: 576px) {
+  .header {
+    padding: 0 0.2rem;
+  }
+  .logo {
+    margin-left: 0.8rem;
+  }
   .form-container {
     margin: 8vh auto;
     width: 70%;

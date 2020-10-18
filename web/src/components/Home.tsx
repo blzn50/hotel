@@ -1,8 +1,8 @@
 import React from 'react';
 
-interface IProps {}
+interface Props {}
 
-const Home: React.FC<IProps> = ({}) => {
+const Home: React.FC<Props> = ({}) => {
   return <div>Hello world</div>;
 };
 

@@ -9,6 +9,7 @@ import { login, useStateValue } from '../../state';
 const Register: React.FC = () => {
   const [{ user }, dispatch] = useStateValue();
   const history = useHistory();
+
   const handleRegister = async (formData: RegisterData) => {
     try {
       const { data: loginData } = await baseApi.post<UserResponse>(`/user/register`, formData);

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
-import axios from 'axios';
 import Login from './components/Login';
 import Register from './components/Register';
 import NavHeader from './components/NavHeader';

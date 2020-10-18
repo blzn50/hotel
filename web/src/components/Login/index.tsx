@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Typography, notification } from 'antd';
+import React from 'react';
+import { notification } from 'antd';
 import { LoginData, UserResponse } from '../../types';
 import LoginForm from './LoginForm';
 import { login, useStateValue } from '../../state';
@@ -18,7 +18,7 @@ const Login: React.FC = () => {
     } catch (error) {
       console.log(error.response.data);
       error.response.data.error.map((message: string) => {
-        notification.error({ message: 'Error', description: message, top: 70 });
+        return notification.error({ message: 'Error', description: message, top: 70 });
       });
     }
   };

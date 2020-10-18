@@ -24,7 +24,7 @@ const layout = {
   wrapperCol: { span: 20 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+  wrapperCol: { span: 24 },
 };
 
 const LoginForm: React.FC<Props> = ({ onSubmit }) => {
@@ -40,23 +40,30 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
       >
         {({ isValid, dirty }) => (
           <Form {...layout} className="register">
-            <Form.Item className="form-item" label="Email" name="email">
+            <Form.Item label="Email" name="email">
               <Input name="email" type="email" placeholder="Email" />
             </Form.Item>
 
-            <Form.Item className="form-item" label="Password" name="password">
+            <Form.Item label="Password" name="password">
               <Input.Password name="password" type="password" placeholder="password" />
             </Form.Item>
-            <Form.Item name="forgot-password">
-              <Link to="/forgot-password" className="forgot-password">
+
+            <Form.Item {...tailLayout} name="forgot-password">
+              <Link style={{ float: 'right' }} to="/forgot-password" className="forgot-password">
                 Forgot Password?
               </Link>
             </Form.Item>
 
-            <Form.Item {...tailLayout} style={{ width: '100%' }} name="submit">
-              <Button type="primary" htmlType="submit" disabled={!dirty || !isValid}>
+            <Form.Item {...tailLayout} name="submit">
+              <Button
+                style={{ width: '100%', marginBottom: '0.5rem' }}
+                type="primary"
+                htmlType="submit"
+                disabled={!dirty || !isValid}
+              >
                 Login
               </Button>
+              Or <Link to="/register">Register now!</Link>
             </Form.Item>
           </Form>
         )}

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Form, Input } from 'formik-antd';
-import { Button, Layout, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import * as Yup from 'yup';
 import { RegisterData } from '../../types';
+import { Link } from 'react-router-dom';
 
 const { Title } = Typography;
 
@@ -25,43 +26,48 @@ const registerSchema = Yup.object().shape({
 });
 
 const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 20 },
+  labelCol: { span: 6 },
+  wrapperCol: { span: 18 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+  wrapperCol: { span: 24 },
 };
 
 const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   return (
     <div className="form-container">
       <Title level={3} style={{ textAlign: 'center', paddingTop: '1.5rem' }}>
-        Login
+        Register
       </Title>
       <Formik
         initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
         onSubmit={onSubmit}
         validationSchema={registerSchema}
       >
-        {({ isValid, dirty }) => (
-          <Form {...layout}>
-            <Form.Item name="firstName" className="form-item" label="First Name">
+        {() => (
+          <Form {...layout} className="register">
+            <Form.Item name="firstName" label="First Name">
               <Input name="firstName" placeholder="First Name" />
             </Form.Item>
-            <Form.Item name="lastName" className="form-item" label="Last Name">
+            <Form.Item name="lastName" label="Last Name">
               <Input name="lastName" placeholder="Last Name" />
             </Form.Item>
-            <Form.Item className="form-item" label="Email" name="email">
+            <Form.Item label="Email" name="email">
               <Input name="email" type="email" placeholder="Email" />
             </Form.Item>
 
-            <Form.Item className="form-item" label="Password" name="password">
+            <Form.Item label="Password" name="password">
               <Input.Password name="password" type="password" placeholder="password" />
             </Form.Item>
             <Form.Item {...tailLayout} name="register">
-              <Button type="primary" htmlType="submit" disabled={!dirty || !isValid}>
+              <Button
+                style={{ width: '100%', marginBottom: '0.5rem' }}
+                type="primary"
+                htmlType="submit"
+              >
                 Register
               </Button>
+              Or <Link to="/login">Login</Link>
             </Form.Item>
           </Form>
         )}

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext } from 'react';
 import { Reservation, Room, UserResponse } from '../types';
 import usePersistedReducer from '../utils/createPersistedReducer';
 import createStorage from '../utils/createStorage';

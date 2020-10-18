@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { Action, State } from '../state';
 
 const usePersistedReducer = (
@@ -11,7 +11,7 @@ const usePersistedReducer = (
 
   useEffect(() => {
     storage.set(key, state);
-  }, [state]);
+  }, [state, storage, key]);
 
   return [state, dispatch];
 };

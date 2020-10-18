@@ -11,13 +11,15 @@ const Register: React.FC = () => {
   const history = useHistory();
   const handleRegister = async (formData: RegisterData) => {
     try {
-      const { data: loginData } = await baseApi.post<UserResponse>(`/user/login`, formData);
+      const { data: loginData } = await baseApi.post<UserResponse>(`/user/register`, formData);
       dispatch(login(loginData));
       history.push('/');
     } catch (error) {
       console.log(error.response.data);
       error.response.data.error.map((message: string) => {
-        notification.error({ message: 'Error', description: message, top: 70 });
+        return setTimeout(() => {
+          notification.error({ message: 'Error', description: message, top: 70 });
+        }, 200);
       });
     }
   };

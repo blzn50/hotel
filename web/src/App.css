@@ -19,14 +19,24 @@
 }
 
 .form-container {
-  margin: 11vh auto;
+  margin: 8vh auto;
   width: 500px;
-  box-shadow: 0 0 3px 1px rgb(163, 162, 162);
+  box-shadow: 2px 2px 6px 2px rgb(230, 230, 230);
+}
+
+.inner-spacing {
+  padding: 2rem;
+  padding-top: 3rem;
 }
 
 .forgot-password {
   text-decoration: none;
   float: right;
+}
+
+.forgot-password__container {
+  margin: 1rem 1.5rem;
+  padding: 1rem;
 }
 
 .register {
@@ -40,6 +50,12 @@
   margin-right: 0.3em;
   float: right;
   font-size: 0.8em;
+}
+
+.user__no-select {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 @media (max-width: 991px) {
@@ -66,6 +82,14 @@
   .form-container {
     margin: 8vh auto;
     width: 70%;
+  }
+  .inner-spacing {
+    padding: 0.2rem;
+    padding-top: 3rem;
+  }
+  .forgot-password__container {
+    margin: 1rem 1.5rem;
+    padding: 0.3rem;
   }
 }
 

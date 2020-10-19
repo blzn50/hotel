@@ -18,6 +18,10 @@ export type LoginData = {
   password: string;
 };
 
+export type ForgotPasswordData = {
+  email: string;
+};
+
 export type ResetPasswordData = {
   password: string;
 };

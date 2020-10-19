@@ -27,7 +27,7 @@ const Header: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="logo">
+      <div className="logo user__no-select">
         <a href="/">Sunshine Hotel</a>
       </div>
 

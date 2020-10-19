@@ -41,11 +41,11 @@ const checkRole = (roles: UserType[]) => {
   };
 };
 
-const errorHandler = (error: CustomError, _req: Request, res: Response, next: NextFunction) => {
-  // console.log('error: ', error);
+const errorHandler = (error: CustomError, _req: Request, res: Response, _next: NextFunction) => {
+  console.log('error: ', error);
 
   if (error.code === '23505') {
-    res.status(400).send({ error: ['Username already taken'] });
+    res.status(400).send({ error: ['User already exists'] });
   } else if (error.name === 'JsonWebTokenError') {
     res.status(401).json({ error: ['Invalid token'] });
   } else if (error.name === 'TokenExpiredError') {
@@ -54,10 +54,14 @@ const errorHandler = (error: CustomError, _req: Request, res: Response, next: Ne
     res.status(400).json({ error: error.elaborateMessage });
   } else if (error.name === 'LoginError') {
     res.status(400).json({ error: error.elaborateMessage });
+  } else if (error.name === 'EntityNotFound') {
+    res.status(400).json({ error: ['Bad request'] });
+  } else {
+    res.status(500).send('error');
+    return;
   }
-  // res.status(400).json({ errors });
-  // return;
-  next(error);
+
+  // next(error);
 };
 
 export default { errorHandler, getToken, checkJWT, checkRole };

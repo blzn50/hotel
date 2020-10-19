@@ -44,20 +44,17 @@ userRouter.post('/forgot-password', async (req, res) => {
 
   await userService.forgotPassword(email);
 
-  res.status(200).send('success');
-  // res.status(200).send({ message: 'If the user exists, then an email has been sent' });
+  res.status(204).send();
 });
 
-userRouter.post('/reset-password', async (req, res) => {
+userRouter.post('/reset-password/:token', async (req, res) => {
   const { token } = req.params;
+
   const { password } = await toResetPassword(req.body);
 
-  const user = await userService.changePassword(token, password);
+  await userService.changePassword(token, password);
 
-  if (user) {
-    return res.status(200).send('success');
-  }
-  return res.status(400).send('error');
+  return res.status(200).send('success');
 });
 
 userRouter.post('/logout', async (req, res) => {

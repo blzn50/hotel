@@ -6,7 +6,7 @@ sgMail.setApiKey(process.env.SENDGRID_KEY || '');
 export async function sendMail(to: string, html: string) {
   const msg = {
     to,
-    from: 'no-reply@sunshinehotel.com',
+    from: 'Sunshine Hotel <no-reply@sunshinehotel.com>',
     subject: 'Reset Password',
     html,
   };

@@ -39,6 +39,11 @@
   padding: 1rem;
 }
 
+.reset-password__container {
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+}
+
 .register {
   margin: 1.5em 2em;
   padding: 2rem 0;

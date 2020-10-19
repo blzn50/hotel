@@ -9,6 +9,7 @@ import NavHeader from './components/NavHeader';
 import Login from './components/Login';
 import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 import './App.css';
 
 const { Header, Footer, Content } = Layout;
@@ -45,6 +46,9 @@ function App() {
           </Route>
           <Route path="/forgot-password">
             <ForgotPassword />
+          </Route>
+          <Route path="/reset-password/:token">
+            <ResetPassword />
           </Route>
         </Content>
         <Footer>Footer</Footer>

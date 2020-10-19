@@ -9,10 +9,10 @@ export const baseApi = axios.create({
   },
 });
 
-export const authenticatedApi = () => {
+export const authenticatedApi = (token = extractToken()) => {
   baseApi.interceptors.request.use((config) => {
-    config.headers['Authorization'] = `Bearer ${extractToken()}`;
-    console.log('config: ', config.headers['Authorization']);
+    config.headers['Authorization'] = `Bearer ${token}`;
+    // console.log('config: ', config.headers['Authorization']);
     return config;
   });
 };

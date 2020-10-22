@@ -18,6 +18,13 @@
   font-weight: bold;
 }
 
+.home {
+  background-image: url('./assets/images/melissa-walker-horn-jsEftnpVh1U-unsplash.jpg');
+  background-size: cover;
+  background-position: initial;
+  height: calc(100vh - 50px);
+}
+
 .form-container {
   margin: 8vh auto;
   width: 500px;
@@ -63,6 +70,27 @@
   -webkit-user-select: none;
 }
 
+.search {
+  background-color: white;
+  position: relative;
+  top: 10vh;
+  width: 700px;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid #d6d6d6;
+}
+
+.search-form {
+  padding: 1rem;
+  padding-top: 2rem;
+  padding-bottom: 0;
+}
+
+.search-dates {
+  display: flex;
+  justify-content: space-around;
+}
+
 @media (max-width: 991px) {
   .form-container {
     width: 50%;
@@ -96,6 +124,13 @@
     margin: 1rem 1.5rem;
     padding: 0.3rem;
   }
+  .search {
+    width: 90%;
+    top: 2%;
+    border: none;
+    padding: 0;
+    padding-top: 1rem;
+  }
 }
 
 /* extra small */
@@ -106,5 +141,10 @@
   .register {
     padding: 1.2em;
     margin: 0;
+  }
+  .search-dates {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
   }
 }

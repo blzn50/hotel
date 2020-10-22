@@ -1,9 +1,12 @@
 import React from 'react';
+import Search from './Search';
 
-interface Props {}
-
-const Home: React.FC<Props> = ({}) => {
-  return <div>Hello world</div>;
+const Home: React.FC = () => {
+  return (
+    <div className="home">
+      <Search />
+    </div>
+  );
 };
 
 export default Home;

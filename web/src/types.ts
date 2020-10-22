@@ -6,6 +6,12 @@ export enum RoomType {
   SUITE = 'suite',
 }
 
+export enum ReservationStatus {
+  BOOKED = 'booked',
+  CONFIRMED = 'confirmed',
+  CANCELED = 'canceled',
+}
+
 export type RegisterData = {
   firstName: string;
   lastName: string;
@@ -38,11 +44,12 @@ export type UserResponse = {
   user: User;
 };
 
-export enum ReservationStatus {
-  BOOKED = 'booked',
-  CONFIRMED = 'confirmed',
-  CANCELED = 'canceled',
-}
+export type SearchData = {
+  dates: [string, string];
+  roomType: string;
+  noOfRoom: number;
+  guestNumber: number;
+};
 
 export type Room = {
   id: number;

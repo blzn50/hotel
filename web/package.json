@@ -13,6 +13,7 @@
     "@types/react-dom": "^16.9.8",
     "antd": "^4.7.0",
     "axios": "^0.20.0",
+    "dayjs": "^1.9.3",
     "formik": "^2.2.0",
     "formik-antd": "^2.0.1",
     "react": "^16.13.1",

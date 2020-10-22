@@ -74,3 +74,10 @@ export const logout = (): Action => {
     type: 'LOGOUT',
   };
 };
+
+export const getSearchResult = (rooms: Room[]): Action => {
+  return {
+    type: 'GET_SEARCH_RESULT',
+    payload: rooms,
+  };
+};

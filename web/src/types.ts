@@ -53,6 +53,8 @@ export type SearchData = {
 
 export type Room = {
   id: number;
+  name: string;
+  description: string;
   type: RoomType;
   roomNumber: number;
   price: number;

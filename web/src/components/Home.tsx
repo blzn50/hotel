@@ -4,7 +4,7 @@ import Search from './Search';
 const Home: React.FC = () => {
   return (
     <div className="home">
-      <Search />
+      <Search searchResultPage={false} />
     </div>
   );
 };

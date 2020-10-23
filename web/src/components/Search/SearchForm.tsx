@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Form, InputNumber } from 'formik-antd';
@@ -13,6 +13,7 @@ const { Title } = Typography;
 
 interface Props {
   onSubmit: (values: SearchData) => void;
+  searchResultPage: boolean;
 }
 
 const selectRoomTypeOptions: string[] = ['single', 'double', 'triple', 'family', 'suite', 'all'];
@@ -53,12 +54,22 @@ const disableDate = (today: any) => {
   return today < dayjs().subtract(1, 'd').endOf('day');
 };
 
-const SearchForm: React.FC<Props> = ({ onSubmit }) => {
+const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
+  const [formLayout, setFormLayout] = useState<null | typeof layout>(layout);
+
+  useEffect(() => {
+    if (searchResultPage) {
+      setFormLayout(null);
+    }
+  });
+
   return (
-    <div className="search">
-      <Title level={3} style={{ textAlign: 'center', paddingTop: '1.5rem' }}>
-        Always ready to make your stay memorable
-      </Title>
+    <div className={searchResultPage ? 'secondary-search' : 'search'}>
+      {!searchResultPage && (
+        <Title level={3} style={{ textAlign: 'center', paddingTop: '1.5rem' }}>
+          Always ready to make your stay memorable
+        </Title>
+      )}
       <Formik
         initialValues={{
           dates: [dayjs().format('YYYY-MM-DD'), dayjs().add(1, 'd').format('YYYY-MM-DD')],
@@ -70,7 +81,11 @@ const SearchForm: React.FC<Props> = ({ onSubmit }) => {
         validationSchema={searchSchema}
       >
         {({ setFieldValue }) => (
-          <Form {...layout} className="search-form">
+          <Form
+            {...formLayout}
+            layout={searchResultPage ? 'inline' : 'horizontal'}
+            className="search-form"
+          >
             <Form.Item label="Staying dates" name="dates">
               <DatePicker.RangePicker
                 defaultValue={[dayjs(), dayjs().add(1, 'd')]}

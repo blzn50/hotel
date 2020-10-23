@@ -11,6 +11,7 @@ import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import './App.css';
+import SearchResult from './components/SearchResult';
 
 const { Header, Footer, Content } = Layout;
 
@@ -49,6 +50,9 @@ function App() {
           </Route>
           <Route path="/reset-password/:token">
             <ResetPassword />
+          </Route>
+          <Route path="/search">
+            <SearchResult />
           </Route>
         </Content>
         <Footer>Footer</Footer>

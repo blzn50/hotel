@@ -21,17 +21,26 @@ export class Room extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @Column({ nullable: true })
+  name: string;
+
   @Column({ type: 'enum', enum: RoomType, default: RoomType.SINGLE })
   type: RoomType;
 
   @Column()
   roomNumber: number;
 
+  @Column({ nullable: true })
+  maxCapacity: number;
+
   @Column('numeric')
   price: number;
 
   @Column()
   isAvailable: boolean;
+
+  @Column({ nullable: true })
+  description: string;
 
   @PrimaryColumn({ default: 0 })
   reservationId: number;

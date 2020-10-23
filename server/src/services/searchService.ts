@@ -29,13 +29,13 @@ const findRooms = async (object: any): Promise<Room[]> => {
   }
   const data = await getManager().query(
     `
-    SELECT room.id, room."roomNumber", room.price, room.type FROM room
+    SELECT room.id, room."roomNumber", room.price, room.type, room.name, room.description, room."maxCapacity" FROM room
     WHERE  EXISTS 
         (SELECT 
         1 FROM reservation r
         WHERE (r.arrival NOT BETWEEN  $1 AND  $2) AND (r.departure NOT BETWEEN   $1 AND  $2)
         )
-        AND room."isAvailable" = $3 
+        AND room."isAvailable" = $3
         ${replacements[5] ? `AND room.type IN ($4, $5, $6, $7,$8)` : `AND room.type IN ($4)`}
     `,
     replacements

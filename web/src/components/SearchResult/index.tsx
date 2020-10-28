@@ -10,51 +10,56 @@ const { Title, Paragraph } = Typography;
 const SearchResult: React.FC = () => {
   const [{ rooms }] = useStateValue();
 
-  if (Object.values(rooms).length === 0) {
-    return <div>Unfortunately we do not have any room available. Please check back later.</div>;
-  }
+  // if (Object.values(rooms).length === 0) {
+  //   return <div>Unfortunately we do not have any room available. Please check back later.</div>;
+  // }
   return (
     <div className="search-result">
       <Search searchResultPage={true} />
-      {Object.values(rooms).map((room: Room) => (
-        <Card className="search-result__card" key={room.id} hoverable>
-          <div className="search-result__card-inner">
-            <Card.Grid
-              className="search-result__card-grid card-search__image-container"
-              hoverable={false}
-            >
-              <Image className="search-result__card-image" alt={room.type} src={singleBed} />
-            </Card.Grid>
-            <Card.Grid
-              className="search-result__card-grid card-search__text-container"
-              hoverable={false}
-            >
-              <div className="search-result__card-description">
-                <Title level={2}>{room.name}</Title>
-                <div className="search-result__card-description__price">
-                  € {room.price} per night
+
+      {Object.values(rooms).length > 0 ? (
+        Object.values(rooms).map((room: Room) => (
+          <Card className="search-result__card" key={room.id} hoverable>
+            <div className="search-result__card-inner">
+              <Card.Grid
+                className="search-result__card-grid card-search__image-container"
+                hoverable={false}
+              >
+                <Image className="search-result__card-image" alt={room.type} src={singleBed} />
+              </Card.Grid>
+              <Card.Grid
+                className="search-result__card-grid card-search__text-container"
+                hoverable={false}
+              >
+                <div className="search-result__card-description">
+                  <Title level={2}>{room.name}</Title>
+                  <div className="search-result__card-description__price">
+                    € {room.price} per night
+                  </div>
+                  <div className="search-result__card-description__span">
+                    including taxes and charges
+                  </div>
+                  <Paragraph
+                    ellipsis={{ rows: 2 }}
+                    className="search-result__card-description__description"
+                  >
+                    {room.description}
+                  </Paragraph>
+                  <Button
+                    color="success"
+                    style={{ float: 'right', marginTop: '0.5rem' }}
+                    type="primary"
+                  >
+                    Select Room
+                  </Button>
                 </div>
-                <div className="search-result__card-description__span">
-                  including taxes and charges
-                </div>
-                <Paragraph
-                  ellipsis={{ rows: 2 }}
-                  className="search-result__card-description__description"
-                >
-                  {room.description}
-                </Paragraph>
-                <Button
-                  color="success"
-                  style={{ float: 'right', marginTop: '0.5rem' }}
-                  type="primary"
-                >
-                  Add Room
-                </Button>
-              </div>
-            </Card.Grid>
-          </div>
-        </Card>
-      ))}
+              </Card.Grid>
+            </div>
+          </Card>
+        ))
+      ) : (
+        <div>Unfortunately we do not have any room available. Please check back later.</div>
+      )}
     </div>
   );
 };

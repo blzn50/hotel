@@ -92,6 +92,10 @@
   justify-content: space-around;
 }
 
+.search-form__item-spacing {
+  padding-bottom: 0.5rem;
+}
+
 /* Search inside search result page */
 .secondary-search {
   top: 2vh;
@@ -188,6 +192,20 @@
     padding-top: 1rem;
   }
 
+  .search-form {
+    padding-top: 0.5rem;
+  }
+
+  .search-button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .search-form__special-item {
+    margin-right: 0 !important;
+    width: 50%;
+  }
+
   .search-result {
     max-width: 80%;
   }
@@ -216,12 +234,15 @@
     padding: 1.2em;
     margin: 0;
   }
+
   .search-dates {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
   }
-
+  .search-form__item-spacing {
+    flex: auto !important;
+  }
   .search-result {
     max-width: 95%;
   }

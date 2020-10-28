@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Form, InputNumber } from 'formik-antd';
 import * as Yup from 'yup';
-import { Button, Typography } from 'antd';
+import { Button, Space, Typography } from 'antd';
 import { DatePicker } from '../DatePicker';
 import { SearchData } from '../../types';
 import { SelectField } from './FormField';
@@ -37,6 +37,11 @@ const searchSchema = Yup.object().shape({
 const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 19 },
+};
+
+const selectLayout = {
+  labelCol: { span: 5 },
+  wrapperCol: { span: 10 },
 };
 
 const tailLayout = {
@@ -75,7 +80,6 @@ const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
       }
     }
   }, [searchResultPage, searchedData]);
-  console.log('localSearchData: ', localSearchData);
 
   return (
     <div className={searchResultPage ? 'secondary-search' : 'search'}>
@@ -96,7 +100,11 @@ const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
             layout={searchResultPage ? 'inline' : 'horizontal'}
             className="search-form"
           >
-            <Form.Item label="Staying dates" name="dates">
+            <Form.Item
+              className={searchResultPage ? 'search-form__item-spacing' : ''}
+              label="Staying dates"
+              name="dates"
+            >
               <DatePicker.RangePicker
                 value={[dayjs(values.dates[0]), dayjs(values.dates[1])]}
                 defaultValue={[dayjs(localSearchData.dates[0]), dayjs(localSearchData.dates[1])]}
@@ -107,20 +115,41 @@ const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
               />
             </Form.Item>
 
-            <Form.Item label="No. of guest" name="guestNumber">
+            <Form.Item
+              className={
+                searchResultPage ? 'search-form__item-spacing search-form__special-item' : ''
+              }
+              label="No. of guest"
+              name="guestNumber"
+            >
               <InputNumber name="guestNumber" />
             </Form.Item>
 
-            <Form.Item label="No. of Room" name="noOfRoom">
+            <Form.Item
+              className={
+                searchResultPage ? 'search-form__item-spacing search-form__special-item' : ''
+              }
+              label="No. of Room"
+              name="noOfRoom"
+            >
               <InputNumber name="noOfRoom" />
             </Form.Item>
 
-            <Form.Item label="Room Type" name="roomType">
+            <Form.Item
+              {...selectLayout}
+              className={searchResultPage ? 'search-form__item-spacing' : ''}
+              label="Room Type"
+              name="roomType"
+            >
               <SelectField name="roomType" options={selectRoomTypeOptions} />
             </Form.Item>
 
-            <Form.Item {...tailLayout} name="submit">
-              <Button style={{ marginBottom: '0.5rem' }} type="primary" htmlType="submit">
+            <Form.Item
+              className={searchResultPage ? 'search-button' : ''}
+              {...tailLayout}
+              name="submit"
+            >
+              <Button style={{ marginBottom: '1rem' }} type="primary" htmlType="submit">
                 Search
               </Button>
             </Form.Item>

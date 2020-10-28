@@ -10,9 +10,6 @@ const { Title, Paragraph } = Typography;
 const SearchResult: React.FC = () => {
   const [{ rooms }] = useStateValue();
 
-  // if (Object.values(rooms).length === 0) {
-  //   return <div>Unfortunately we do not have any room available. Please check back later.</div>;
-  // }
   return (
     <div className="search-result">
       <Search searchResultPage={true} />
@@ -58,7 +55,9 @@ const SearchResult: React.FC = () => {
           </Card>
         ))
       ) : (
-        <div>Unfortunately we do not have any room available. Please check back later.</div>
+        <div className="search-result__card">
+          Unfortunately we do not have any room available. Please check back later.
+        </div>
       )}
     </div>
   );

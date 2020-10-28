@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { Reservation, Room, UserResponse } from '../types';
+import { Reservation, Room, SearchData, UserResponse } from '../types';
 import usePersistedReducer from '../utils/createPersistedReducer';
 import createStorage from '../utils/createStorage';
 import { Action } from './reducer';
@@ -8,12 +8,14 @@ export type State = {
   rooms: { [id: string]: Room };
   reservations: { [id: string]: Reservation };
   user: { [email: string]: UserResponse };
+  searchedData: { [search: string]: SearchData };
 };
 
 export const initialState = {
   rooms: {},
   reservations: {},
   user: {},
+  searchedData: {},
 };
 
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([

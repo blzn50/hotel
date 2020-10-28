@@ -1,10 +1,11 @@
-import { Reservation, Room, UserResponse } from '../types';
+import { Reservation, Room, SearchData, UserResponse } from '../types';
 import { State } from './store';
 
 export type Action =
   | {
       type: 'GET_SEARCH_RESULT';
       payload: Room[];
+      searchedData: SearchData;
     }
   | {
       type: 'LOGIN';
@@ -27,6 +28,11 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         rooms: {
           ...action.payload.reduce((memo, room) => ({ ...memo, [room.id]: room }), {}),
+        },
+        searchedData: {
+          search: {
+            ...action.searchedData,
+          },
         },
       };
     case 'BOOK_RESERVATION':
@@ -75,9 +81,10 @@ export const logout = (): Action => {
   };
 };
 
-export const getSearchResult = (rooms: Room[]): Action => {
+export const getSearchResult = (rooms: Room[], data: SearchData): Action => {
   return {
     type: 'GET_SEARCH_RESULT',
     payload: rooms,
+    searchedData: data,
   };
 };

@@ -8,6 +8,7 @@ import { DatePicker } from '../DatePicker';
 import { SearchData } from '../../types';
 import { SelectField } from './FormField';
 import dayjs from 'dayjs';
+import { useStateValue } from '../../state';
 
 const { Title } = Typography;
 
@@ -55,13 +56,26 @@ const disableDate = (today: any) => {
 };
 
 const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
+  const [{ searchedData }] = useStateValue();
   const [formLayout, setFormLayout] = useState<null | typeof layout>(layout);
+  const [localSearchData, setLocalSearchData] = useState<SearchData>({
+    dates: [dayjs().format('YYYY-MM-DD'), dayjs().add(1, 'd').format('YYYY-MM-DD')],
+    guestNumber: 1,
+    roomType: 'single',
+    noOfRoom: 1,
+  });
 
   useEffect(() => {
     if (searchResultPage) {
       setFormLayout(null);
+      if (Object.values(searchedData).length > 0) {
+        const [data] = Object.values(searchedData);
+        // console.log(a);
+        setLocalSearchData(data);
+      }
     }
-  });
+  }, [searchResultPage, searchedData]);
+  console.log('localSearchData: ', localSearchData);
 
   return (
     <div className={searchResultPage ? 'secondary-search' : 'search'}>
@@ -71,16 +85,12 @@ const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
         </Title>
       )}
       <Formik
-        initialValues={{
-          dates: [dayjs().format('YYYY-MM-DD'), dayjs().add(1, 'd').format('YYYY-MM-DD')],
-          guestNumber: 1,
-          roomType: 'single',
-          noOfRoom: 1,
-        }}
+        initialValues={localSearchData}
+        enableReinitialize
         onSubmit={onSubmit}
         validationSchema={searchSchema}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, values }) => (
           <Form
             {...formLayout}
             layout={searchResultPage ? 'inline' : 'horizontal'}
@@ -88,9 +98,10 @@ const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
           >
             <Form.Item label="Staying dates" name="dates">
               <DatePicker.RangePicker
-                defaultValue={[dayjs(), dayjs().add(1, 'd')]}
+                value={[dayjs(values.dates[0]), dayjs(values.dates[1])]}
+                defaultValue={[dayjs(localSearchData.dates[0]), dayjs(localSearchData.dates[1])]}
                 disabledDate={disableDate}
-                onChange={(dates, dateString) => {
+                onChange={(_dates, dateString) => {
                   setFieldValue('dates', dateString, true);
                 }}
               />

@@ -6,6 +6,7 @@ import { Action } from './reducer';
 
 export type State = {
   rooms: { [id: string]: Room };
+  additionalRooms: { [id: string]: Room };
   reservations: { [id: string]: Reservation };
   user: { [email: string]: UserResponse };
   searchedData: { [search: string]: SearchData };
@@ -13,6 +14,7 @@ export type State = {
 
 export const initialState = {
   rooms: {},
+  additionalRooms: {},
   reservations: {},
   user: {},
   searchedData: {},

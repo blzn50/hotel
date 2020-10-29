@@ -5,6 +5,7 @@ export type Action =
   | {
       type: 'GET_SEARCH_RESULT';
       payload: Room[];
+      additionalPayload: Room[];
       searchedData: SearchData;
     }
   | {
@@ -28,6 +29,9 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         rooms: {
           ...action.payload.reduce((memo, room) => ({ ...memo, [room.id]: room }), {}),
+        },
+        additionalRooms: {
+          ...action.additionalPayload.reduce((memo, room) => ({ ...memo, [room.id]: room }), {}),
         },
         searchedData: {
           search: {
@@ -81,10 +85,15 @@ export const logout = (): Action => {
   };
 };
 
-export const getSearchResult = (rooms: Room[], data: SearchData): Action => {
+export const getSearchResult = (
+  rooms: Room[],
+  additionalRooms: Room[],
+  data: SearchData
+): Action => {
   return {
     type: 'GET_SEARCH_RESULT',
     payload: rooms,
+    additionalPayload: additionalRooms,
     searchedData: data,
   };
 };

@@ -41,7 +41,7 @@ const layout = {
 
 const selectLayout = {
   labelCol: { span: 5 },
-  wrapperCol: { span: 10 },
+  wrapperCol: { span: 8 },
 };
 
 const tailLayout = {
@@ -63,6 +63,7 @@ const disableDate = (today: any) => {
 const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
   const [{ searchedData }] = useStateValue();
   const [formLayout, setFormLayout] = useState<null | typeof layout>(layout);
+  const [selectFieldLayout, setSelectFieldLayout] = useState<null | typeof layout>(selectLayout);
   const [localSearchData, setLocalSearchData] = useState<SearchData>({
     dates: [dayjs().format('YYYY-MM-DD'), dayjs().add(1, 'd').format('YYYY-MM-DD')],
     guestNumber: 1,
@@ -73,6 +74,7 @@ const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
   useEffect(() => {
     if (searchResultPage) {
       setFormLayout(null);
+      setSelectFieldLayout(null);
       if (Object.values(searchedData).length > 0) {
         const [data] = Object.values(searchedData);
         // console.log(a);
@@ -136,7 +138,7 @@ const SearchForm: React.FC<Props> = ({ onSubmit, searchResultPage }) => {
             </Form.Item>
 
             <Form.Item
-              {...selectLayout}
+              {...selectFieldLayout}
               className={searchResultPage ? 'search-form__item-spacing' : ''}
               label="Room Type"
               name="roomType"

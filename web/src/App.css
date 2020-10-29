@@ -111,8 +111,12 @@
   margin: 0 auto;
 }
 
+.additional-search__result {
+  margin-top: 1.5rem;
+}
+
 .search-result__card {
-  margin-top: 2rem;
+  margin: 2rem 0;
 }
 
 .search-result__card-grid {

@@ -21,8 +21,11 @@ const Search: React.FC<Props> = ({ searchResultPage }) => {
       roomType: values.roomType,
     };
     try {
-      const { data: searchResult } = await baseApi.post<Room[]>('/search', transformedValues);
-      dispatch(getSearchResult(searchResult, values));
+      const {
+        data: { data: searchResult, moreData: additionalSearchData },
+      } = await baseApi.post<{ data: Room[]; moreData: Room[] }>('/search', transformedValues);
+      // console.log('data: ', data);
+      dispatch(getSearchResult(searchResult, additionalSearchData, values));
       history.push('/search');
     } catch (error) {
       console.log(error);

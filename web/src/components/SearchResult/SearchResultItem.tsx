@@ -1,14 +1,20 @@
 import React from 'react';
 import { Card, Image, Typography, Button } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import { Room } from '../../types';
 import singleBed from '../../assets/images/single-bed.jpg';
 import doubleBed from '../../assets/images/neonbrand-iAftdIcgpFc-unsplash.jpg';
 import tripleBed from '../../assets/images/triple-bed.jpg';
 import familyBed from '../../assets/images/family-room.jpg';
 import suiteBed from '../../assets/images/hotel-suite.jpg';
+import { Link } from 'react-router-dom';
 
 interface Props {
   room: Room;
+  email: string;
+  selectRoom: (roomNo: number) => void;
+  removeRoom: (roomNo: number) => void;
+  selectedRoom: number[];
 }
 
 const { Title, Paragraph } = Typography;
@@ -25,7 +31,13 @@ const selectBed = (type: string): string => {
   return IMAGE_URL[type];
 };
 
-const SearchResultItem: React.FC<Props> = ({ room }) => {
+const SearchResultItem: React.FC<Props> = ({
+  room,
+  email,
+  selectRoom,
+  removeRoom,
+  selectedRoom,
+}) => {
   return (
     <Card className="search-result__card" hoverable>
       <div className="search-result__card-inner">
@@ -41,6 +53,9 @@ const SearchResultItem: React.FC<Props> = ({ room }) => {
         >
           <div className="search-result__card-description">
             <Title level={2}>{room.name}</Title>
+            <div className="search-result__card-description__capacity">
+              <UserOutlined /> {room.maxCapacity} people
+            </div>
             <div className="search-result__card-description__price">€ {room.price} per night</div>
             <div className="search-result__card-description__span">including taxes and charges</div>
             <Paragraph
@@ -49,9 +64,34 @@ const SearchResultItem: React.FC<Props> = ({ room }) => {
             >
               {room.description}
             </Paragraph>
-            <Button color="success" style={{ float: 'right', marginTop: '0.5rem' }} type="primary">
-              Select Room
-            </Button>
+            {email ? (
+              selectedRoom.find((roomInArray) => roomInArray === room.roomNumber) ? (
+                <Button
+                  danger
+                  style={{
+                    float: 'right',
+                    marginTop: '0.5rem',
+                  }}
+                  onClick={() => removeRoom(room.roomNumber)}
+                >
+                  Remove Selection
+                </Button>
+              ) : (
+                <Button
+                  style={{ float: 'right', marginTop: '0.5rem' }}
+                  type="primary"
+                  ghost
+                  onClick={() => selectRoom(room.roomNumber)}
+                >
+                  Select Room
+                </Button>
+              )
+            ) : (
+              <div style={{ fontSize: '1rem', textAlign: 'center', textDecoration: 'underline' }}>
+                Please <Link to="/login">Login</Link> / <Link to="/register">Register</Link> to
+                continue.
+              </div>
+            )}
           </div>
         </Card.Grid>
       </div>

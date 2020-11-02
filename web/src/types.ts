@@ -55,6 +55,7 @@ export type Room = {
   id: number;
   name: string;
   description: string;
+  maxCapacity: number;
   type: RoomType;
   roomNumber: number;
   price: number;

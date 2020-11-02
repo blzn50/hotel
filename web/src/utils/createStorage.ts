@@ -1,15 +1,15 @@
 import { State } from '../state';
 
-const createStorage = () => ({
+const createStorage = (storage: Storage) => ({
   get(key: string, initialState: State) {
-    const json = localStorage.getItem(key);
+    const json = storage.getItem(key);
     return json === null ? initialState : JSON.parse(json);
   },
   set(key: string, value: any) {
-    localStorage.setItem(key, JSON.stringify(value));
+    storage.setItem(key, JSON.stringify(value));
   },
   clear(key: string) {
-    localStorage.removeItem(key);
+    storage.removeItem(key);
   },
 });
 

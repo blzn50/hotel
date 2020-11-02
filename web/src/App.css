@@ -109,10 +109,26 @@
 .search-result {
   max-width: 900px;
   margin: 0 auto;
+  position: relative;
 }
 
 .additional-search__result {
   margin-top: 1.5rem;
+}
+
+.go-to__reservation {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 10vh;
+  z-index: 10;
+  float: right;
+  background-color: #389e0d;
+  border: 1px solid #389e0d;
+}
+
+.go-to__reservation:hover {
+  background-color: #52c41a;
+  border: 1px solid #52c41a;
 }
 
 .search-result__card {

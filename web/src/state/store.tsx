@@ -10,6 +10,7 @@ export type State = {
   reservations: { [id: string]: Reservation };
   user: { [email: string]: UserResponse };
   searchedData: { [search: string]: SearchData };
+  selectedRooms: number[];
 };
 
 export const initialState = {
@@ -18,6 +19,7 @@ export const initialState = {
   reservations: {},
   user: {},
   searchedData: {},
+  selectedRooms: [],
 };
 
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([
@@ -30,7 +32,7 @@ type StateProviderProps = {
   children: React.ReactElement;
 };
 
-export const storage = createStorage();
+export const storage = createStorage(localStorage);
 
 export const StateProvider: React.FC<StateProviderProps> = ({ reducer, children }) => {
   const [state, dispatch] = usePersistedReducer(reducer, initialState, 'state', storage);

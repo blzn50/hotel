@@ -9,16 +9,24 @@ export type Action =
       searchedData: SearchData;
     }
   | {
+      type: 'SELECT_ROOM';
+      payload: number;
+    }
+  | {
+      type: 'REMOVE_ROOM';
+      payload: number;
+    }
+  | {
+      type: 'BOOK_RESERVATION';
+      payload: Reservation;
+    }
+  | {
       type: 'LOGIN';
       payload: UserResponse;
     }
   | {
       type: 'REGISTER';
       payload: UserResponse;
-    }
-  | {
-      type: 'BOOK_RESERVATION';
-      payload: Reservation;
     }
   | { type: 'LOGOUT' };
 
@@ -38,6 +46,18 @@ export const reducer = (state: State, action: Action): State => {
             ...action.searchedData,
           },
         },
+      };
+    case 'SELECT_ROOM':
+      return {
+        ...state,
+        selectedRooms: state.selectedRooms.concat(action.payload),
+      };
+    case 'REMOVE_ROOM':
+      return {
+        ...state,
+        selectedRooms: state.selectedRooms.filter(
+          (roomInSelection) => roomInSelection !== action.payload
+        ),
       };
     case 'BOOK_RESERVATION':
       return {
@@ -59,6 +79,8 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         user: {},
         reservations: {},
+        selectedRooms: [],
+        searchedData: {},
       };
     default:
       return state;
@@ -95,5 +117,18 @@ export const getSearchResult = (
     payload: rooms,
     additionalPayload: additionalRooms,
     searchedData: data,
+  };
+};
+
+export const selectRoomToBook = (roomNo: number): Action => {
+  return {
+    type: 'SELECT_ROOM',
+    payload: roomNo,
+  };
+};
+export const removeSelectedRoom = (roomNo: number): Action => {
+  return {
+    type: 'REMOVE_ROOM',
+    payload: roomNo,
   };
 };

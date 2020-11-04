@@ -74,3 +74,9 @@ export type Reservation = {
   totalRoomsBooked: number;
   rooms: Room[];
 };
+
+export interface TLocationProps {
+  state: {
+    redirectTo: string;
+  };
+}

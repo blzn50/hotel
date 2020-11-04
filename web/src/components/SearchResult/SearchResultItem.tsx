@@ -88,8 +88,12 @@ const SearchResultItem: React.FC<Props> = ({
               )
             ) : (
               <div style={{ fontSize: '1rem', textAlign: 'center', textDecoration: 'underline' }}>
-                Please <Link to="/login">Login</Link> / <Link to="/register">Register</Link> to
-                continue.
+                Please{' '}
+                <Link to={{ pathname: '/login', state: { redirectTo: '/search' } }}>Login</Link> /{' '}
+                <Link to={{ pathname: '/register', state: { redirectTo: '/search' } }}>
+                  Register
+                </Link>{' '}
+                to continue.
               </div>
             )}
           </div>

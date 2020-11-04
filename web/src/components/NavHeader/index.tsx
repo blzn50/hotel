@@ -2,11 +2,12 @@ import React, { Fragment, useState } from 'react';
 import { Button, Menu } from 'antd';
 import { useStateValue, logout } from '../../state';
 import { authenticatedApi, baseApi } from '../../utils/httpUtils';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [{ user }, dispatch] = useStateValue();
   const location = useLocation();
+  const history = useHistory();
   const [current, setCurrent] = useState(() => location.pathname.slice(1));
 
   const handleMenuItemChange = (e: any) => {
@@ -19,6 +20,7 @@ const Header: React.FC = () => {
         authenticatedApi();
         await baseApi.post('/user/logout');
         dispatch(logout());
+        history.push('/');
       } catch (error) {
         console.log(error);
       }

@@ -91,6 +91,7 @@ export const reducer = (state: State, action: Action): State => {
         reservations: {},
         selectedRoomNumbers: [],
         searchedData: {},
+        selectedRooms: {},
       };
     default:
       return state;

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 interface Props {
   room: Room;
   email: string;
-  selectRoom: (roomNo: number) => void;
+  selectRoom: (roomNo: number, room: Room) => void;
   removeRoom: (roomNo: number) => void;
   selectedRoom: number[];
 }
@@ -81,7 +81,7 @@ const SearchResultItem: React.FC<Props> = ({
                   style={{ float: 'right', marginTop: '0.5rem' }}
                   type="primary"
                   ghost
-                  onClick={() => selectRoom(room.roomNumber)}
+                  onClick={() => selectRoom(room.roomNumber, room)}
                 >
                   Select Room
                 </Button>

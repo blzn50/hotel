@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Typography, Button } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import { removeSelectedRoom, selectRoomToBook, useStateValue } from '../../state';
@@ -9,7 +10,7 @@ import SearchResultItem from './SearchResultItem';
 const { Title } = Typography;
 
 const SearchResult: React.FC = () => {
-  const [{ rooms, additionalRooms, user, selectedRooms }, dispatch] = useStateValue();
+  const [{ rooms, additionalRooms, user, selectedRoomNumbers }, dispatch] = useStateValue();
   const [userEmail, setUserEmail] = useState<string>('');
 
   useEffect(() => {
@@ -19,8 +20,8 @@ const SearchResult: React.FC = () => {
     }
   }, [user]);
 
-  const handleSelectRoom = (roomNo: number) => {
-    dispatch(selectRoomToBook(roomNo));
+  const handleSelectRoom = (roomNo: number, roomToSelect: Room) => {
+    dispatch(selectRoomToBook(roomNo, roomToSelect));
   };
 
   const handleRemoveRoom = (roomNo: number) => {
@@ -30,15 +31,17 @@ const SearchResult: React.FC = () => {
   return (
     <div className="search-result">
       <Search searchResultPage={true} />
-      {selectedRooms.length > 0 ? (
-        <Button
-          type="primary"
-          size="large"
-          icon={<CalendarOutlined />}
-          className="go-to__reservation"
-        >
-          Book Now
-        </Button>
+      {selectedRoomNumbers.length > 0 ? (
+        <Link to="/reservation">
+          <Button
+            type="primary"
+            size="large"
+            icon={<CalendarOutlined />}
+            className="go-to__reservation"
+          >
+            Book Now
+          </Button>
+        </Link>
       ) : (
         ''
       )}
@@ -51,7 +54,7 @@ const SearchResult: React.FC = () => {
               email={userEmail}
               selectRoom={handleSelectRoom}
               removeRoom={handleRemoveRoom}
-              selectedRoom={selectedRooms}
+              selectedRoom={selectedRoomNumbers}
             />
           ))}
           {Object.values(additionalRooms).length > 0 ? (
@@ -67,7 +70,7 @@ const SearchResult: React.FC = () => {
                   email={userEmail}
                   selectRoom={handleSelectRoom}
                   removeRoom={handleRemoveRoom}
-                  selectedRoom={selectedRooms}
+                  selectedRoom={selectedRoomNumbers}
                 />
               ))}
             </div>

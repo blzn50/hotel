@@ -11,6 +11,7 @@ export type Action =
   | {
       type: 'SELECT_ROOM';
       payload: number;
+      data: Room;
     }
   | {
       type: 'REMOVE_ROOM';
@@ -46,18 +47,27 @@ export const reducer = (state: State, action: Action): State => {
             ...action.searchedData,
           },
         },
+        selectedRooms: {},
+        selectedRoomNumbers: [],
       };
     case 'SELECT_ROOM':
       return {
         ...state,
-        selectedRooms: state.selectedRooms.concat(action.payload),
+        selectedRoomNumbers: state.selectedRoomNumbers.concat(action.payload),
+        selectedRooms: {
+          [action.data.roomNumber]: action.data,
+        },
       };
     case 'REMOVE_ROOM':
+      const { [action.payload]: value, ...remainingRooms } = state.selectedRooms;
       return {
         ...state,
-        selectedRooms: state.selectedRooms.filter(
+        selectedRoomNumbers: state.selectedRoomNumbers.filter(
           (roomInSelection) => roomInSelection !== action.payload
         ),
+        selectedRooms: {
+          ...remainingRooms,
+        },
       };
     case 'BOOK_RESERVATION':
       return {
@@ -79,7 +89,7 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         user: {},
         reservations: {},
-        selectedRooms: [],
+        selectedRoomNumbers: [],
         searchedData: {},
       };
     default:
@@ -120,10 +130,11 @@ export const getSearchResult = (
   };
 };
 
-export const selectRoomToBook = (roomNo: number): Action => {
+export const selectRoomToBook = (roomNo: number, roomToSelect: Room): Action => {
   return {
     type: 'SELECT_ROOM',
     payload: roomNo,
+    data: roomToSelect,
   };
 };
 export const removeSelectedRoom = (roomNo: number): Action => {

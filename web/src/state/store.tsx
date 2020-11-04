@@ -10,7 +10,8 @@ export type State = {
   reservations: { [id: string]: Reservation };
   user: { [email: string]: UserResponse };
   searchedData: { [search: string]: SearchData };
-  selectedRooms: number[];
+  selectedRoomNumbers: number[];
+  selectedRooms: { [roomNumber: number]: Room };
 };
 
 export const initialState = {
@@ -19,7 +20,8 @@ export const initialState = {
   reservations: {},
   user: {},
   searchedData: {},
-  selectedRooms: [],
+  selectedRoomNumbers: [],
+  selectedRooms: {},
 };
 
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([

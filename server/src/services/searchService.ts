@@ -40,9 +40,9 @@ const findRooms = async (
     WHERE  EXISTS
         (SELECT
         1 FROM reservation r
-        WHERE (r.arrival NOT BETWEEN  $1 AND  $2) AND (r.departure NOT BETWEEN   $1 AND  $2)
+        WHERE (r.arrival NOT BETWEEN  $1 AND  $2) AND (r.departure NOT BETWEEN   $1 AND  $2) 
         )
-        AND room."isAvailable" = $3
+        AND room."isAvailable" = $3 AND $1 >=now()::date AND $2 >= now()::date + 1
         ${replacements[5] ? `AND room.type IN ($4, $5, $6, $7,$8)` : `AND room.type IN ($4)`}
     `,
     replacements

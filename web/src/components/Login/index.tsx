@@ -3,7 +3,7 @@ import { notification } from 'antd';
 import { LoginData, UserResponse, TLocationProps } from '../../types';
 import LoginForm from './LoginForm';
 import { login, useStateValue } from '../../state';
-import { Redirect, useHistory, useLocation, RouteProps } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { baseApi } from '../../utils/httpUtils';
 
 const Login: React.FC = () => {

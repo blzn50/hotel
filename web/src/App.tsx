@@ -12,6 +12,7 @@ import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import './App.css';
 import SearchResult from './components/SearchResult';
+import Reservation from './components/Reservation';
 
 const { Header, Footer, Content } = Layout;
 
@@ -35,7 +36,7 @@ function App() {
         <NavHeader />
       </Header>
       <Switch>
-        <Content style={{ background: 'white' }}>
+        <Content style={{ background: 'rgb(245, 245, 245)', minHeight: '91vh' }}>
           <Route exact path="/">
             <Home />
           </Route>
@@ -53,6 +54,9 @@ function App() {
           </Route>
           <Route path="/search">
             <SearchResult />
+          </Route>
+          <Route path="/reservation">
+            <Reservation />
           </Route>
         </Content>
         <Footer>Footer</Footer>

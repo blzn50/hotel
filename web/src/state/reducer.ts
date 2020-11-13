@@ -55,7 +55,8 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         selectedRoomNumbers: state.selectedRoomNumbers.concat(action.payload),
         selectedRooms: {
-          [action.data.roomNumber]: action.data,
+          ...state.selectedRooms,
+          [action.payload]: action.data,
         },
       };
     case 'REMOVE_ROOM':
@@ -92,6 +93,8 @@ export const reducer = (state: State, action: Action): State => {
         selectedRoomNumbers: [],
         searchedData: {},
         selectedRooms: {},
+        additionalRooms: {},
+        rooms: {},
       };
     default:
       return state;

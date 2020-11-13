@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Form, InputNumber } from 'formik-antd';
 import * as Yup from 'yup';
-import { Button, Space, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import { DatePicker } from '../DatePicker';
 import { SearchData } from '../../types';
 import { SelectField } from './FormField';

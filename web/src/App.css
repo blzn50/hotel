@@ -165,6 +165,62 @@
   color: #7d7162;
 }
 
+.main-content {
+  background-image: url('./assets/images/melissa-walker-horn-jsEftnpVh1U-unsplash.jpg');
+  background-size: cover;
+  background-position: initial;
+  height: calc(100vh - 50px);
+}
+
+.reservation-page {
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 2.5rem;
+  padding: 0.5rem;
+  background-color: #ffffff;
+}
+
+.reservation-page__data-item {
+  display: flex;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.reservation-page__item-description {
+  flex: 2 90%;
+}
+
+.reservation-page__item-value {
+  flex: 1 10%;
+  font-size: 1.1rem;
+  text-align: end;
+}
+
+.reservation-page__change-room {
+  background-color: #e47105;
+  border: 1px solid #e47105;
+  color: white;
+}
+.reservation-page__change-room:hover {
+  background: white;
+  border: 1px solid#d46b08;
+  color: #d46b08;
+}
+
+.reservation-page__add-room {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.reservation-page__add-room a {
+  margin-top: 0.5rem;
+}
+
+.payment-form {
+  margin: 0 auto;
+  max-width: 500px;
+}
+
 @media (max-width: 991px) {
   .form-container {
     width: 50%;

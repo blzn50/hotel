@@ -75,6 +75,8 @@ export type Reservation = {
   rooms: Room[];
 };
 
+export type TRoomInfo = Pick<Room, 'id' | 'name' | 'price' | 'maxCapacity'>;
+
 export interface TLocationProps {
   state: {
     redirectTo: string;

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { Button, Divider, Typography } from 'antd';
 import { CalendarOutlined, UserOutlined } from '@ant-design/icons';
@@ -7,7 +7,7 @@ import { useStateValue } from '../../state';
 import { TRoomInfo } from '../../types';
 import PaymentForm from './PaymentForm';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const Reserve: React.FC = () => {
   const history = useHistory();
@@ -15,8 +15,9 @@ const Reserve: React.FC = () => {
   const [tempRoomInfo, setTempRoomInfo] = useState<TRoomInfo[]>([]);
   const [nights, setNights] = useState(1);
   const [dates, setDates] = useState<[string, string]>(['', '']);
-  const [total, setTotal] = useState(0);
-  const [guests, setGuests] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [guestCount, setGuestCount] = useState(1);
+  const [enoughTotalRoomCapacity, setEnoughTotalRoomCapacity] = useState(false);
 
   useEffect(() => {
     if (Object.values(selectedRooms).length > 0) {
@@ -30,15 +31,19 @@ const Reserve: React.FC = () => {
       });
 
       const tempDays = Object.values(searchedData).map((search) => search.dates)[0];
-      const tempGuests = Object.values(searchedData).map((search) => search.guestNumber)[0];
+      const tempGuestCount = Object.values(searchedData).map((search) => search.guestNumber)[0];
       const nights = dayjs(tempDays[1]).diff(tempDays[0], 'd');
       const roomPricePerNight = tempRooms.reduce((sum, item) => sum + +item.price, 0);
+
+      // check enough beds selected for the guests
+      const tempTotalRoomCapacity = tempRooms.reduce((sum, item) => sum + +item.maxCapacity, 0);
+      setEnoughTotalRoomCapacity(tempTotalRoomCapacity - tempGuestCount >= 0 ? true : false);
 
       setTempRoomInfo(tempRooms);
       setDates(tempDays);
       setNights(nights);
-      setTotal(nights * roomPricePerNight);
-      setGuests(tempGuests);
+      setTotalPrice(nights * roomPricePerNight);
+      setGuestCount(tempGuestCount);
     }
   }, [selectedRoomNumbers, selectedRooms, searchedData]);
 
@@ -61,8 +66,8 @@ const Reserve: React.FC = () => {
           <div className="reservation-page__item-description">
             {dayjs(dates[0]).format('DD MMM, YYYY')} - {dayjs(dates[1]).format('DD MMM, YYYY')}
             <br />
-            <CalendarOutlined /> {nights} night{nights > 1 ? 's' : ''}, <UserOutlined /> {guests}{' '}
-            guest{guests > 1 ? 's' : ''}
+            <CalendarOutlined /> {nights} night{nights > 1 ? 's' : ''}, <UserOutlined />{' '}
+            {guestCount} guest{guestCount > 1 ? 's' : ''}
           </div>
         </div>
         {tempRoomInfo.length > 0 && (
@@ -75,14 +80,26 @@ const Reserve: React.FC = () => {
                 </div>
               </Fragment>
             ))}
-            <div className="reservation-page__data-item">
-              <Button
-                type="default"
-                className="reservation-page__change-room"
-                onClick={handleChangeRoom}
-              >
-                Change Room
-              </Button>
+            <div className="reservation-page__data-item reservation-page__add-room">
+              {enoughTotalRoomCapacity ? (
+                <Button
+                  type="default"
+                  className="reservation-page__change-room"
+                  onClick={handleChangeRoom}
+                >
+                  Change Room
+                </Button>
+              ) : (
+                <Fragment>
+                  <Text type="warning">You have not selected enough beds for the guests.</Text>
+
+                  <Link to="/search">
+                    <Button type="primary" className="go-to__reservation">
+                      Add More Room
+                    </Button>
+                  </Link>
+                </Fragment>
+              )}
             </div>
           </Fragment>
         )}
@@ -90,17 +107,19 @@ const Reserve: React.FC = () => {
         <Divider style={{ margin: '12px 0' }} />
         <div className="reservation-page__data-item" style={{ fontWeight: 600 }}>
           <div className="reservation-page__item-description">Total</div>
-          <div className="reservation-page__item-value">{total}€</div>
+          <div className="reservation-page__item-value">{totalPrice}€</div>
         </div>
 
-        {Object.values(user).map((usr) => (
-          <div key={usr.user.email}>
-            <PaymentForm
-              fullName={`${usr.user.firstName} ${usr.user.lastName}`}
-              handleReservation={handleReservation}
-            />
-          </div>
-        ))}
+        {enoughTotalRoomCapacity
+          ? Object.values(user).map((usr) => (
+              <div key={usr.user.email}>
+                <PaymentForm
+                  fullName={`${usr.user.firstName} ${usr.user.lastName}`}
+                  handleReservation={handleReservation}
+                />
+              </div>
+            ))
+          : ''}
       </div>
     </div>
   );

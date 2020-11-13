@@ -16,7 +16,10 @@ interface Props {
 
 const paymentSchema = Yup.object().shape({
   nameOnCard: Yup.string().min(5).required('Full name is required'),
-  cardNumber: Yup.string().max(20).required('Card number is required'),
+  cardNumber: Yup.string()
+    .min(19, 'Must contains 19 characters including spaces')
+    .max(19, 'Must contains 19 characters including spaces')
+    .required('Card number is required'),
   expiryDate: Yup.string().max(5).required('Expiry date is required'),
   cvc: Yup.string().min(3).max(4).required(),
 });
